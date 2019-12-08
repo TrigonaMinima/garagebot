@@ -35,3 +35,10 @@ if __name__ == "__main__":
            "Add some key-value pairs you want the "
            "bot to fetch when you want it.")
     print(msg)
+
+    highlight_f = assets_dir / config["FILES"]["highlight_f"]
+    fileio.create_file(highlight_f)
+    msg = ("5. Empty highlights file created. "
+           "Add some awesome dialogues or sayings or group memories for"
+           "the bot to give them to you at random.")
+    print(msg)

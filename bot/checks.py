@@ -8,6 +8,16 @@ from utils.generic import load_config
 config = load_config()
 
 
+def check_file(file_path):
+    if not file_path.exists():
+        print()
+        msg = (f"{file_path} file does not exist. "
+               "Set it up using bot/bot_setup.py")
+        raise FileNotFoundError(msg)
+    else:
+        print(f"> {file_path} file exists.")
+
+
 def check():
     assets_dir = Path(config["DIR"]["assets"])
 
@@ -17,7 +27,7 @@ def check():
                "Set it up using bot/bot_setup.py")
         raise DBDoesNotExistError(msg)
     else:
-        print("1. Chat DB exists.")
+        print("> Chat DB exists.")
 
     chat_table = config["DB"]["chat_table"]
     if not db.check_table(db_path, chat_table):
@@ -25,31 +35,19 @@ def check():
                "Set it up using bot/bot_setup.py")
         raise TableDoesNotExist(msg)
     else:
-        print(f"2. {chat_table} table exists.")
+        print(f"> {chat_table} table exists.")
 
     users_f = assets_dir / config["FILES"]["users_f"]
-    if not users_f.exists():
-        msg = (f"{users_f} file does not exist. "
-               "Set it up using bot/bot_setup.py")
-        raise FileNotFoundError(msg)
-    else:
-        print(f"3. {users_f} file exists.")
+    check_file(users_f)
 
     start_f = assets_dir / config["FILES"]["start_f"]
-    if not start_f.exists():
-        msg = (f"{start_f} file does not exist. "
-               "Set it up using bot/bot_setup.py")
-        raise FileNotFoundError(msg)
-    else:
-        print(f"4. {start_f} file exists.")
+    check_file(start_f)
 
     key_val_f = assets_dir / config["FILES"]["key_val_f"]
-    if not key_val_f.exists():
-        msg = (f"{key_val_f} file does not exist. "
-               "Set it up using bot/bot_setup.py")
-        raise FileNotFoundError(msg)
-    else:
-        print(f"5. {key_val_f} file exists.")
+    check_file(key_val_f)
+
+    highlight_f = assets_dir / config["FILES"]["highlight_f"]
+    check_file(highlight_f)
 
     return 1
 
