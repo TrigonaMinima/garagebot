@@ -28,3 +28,10 @@ if __name__ == "__main__":
     msg = ("4. Empty starters file created. "
            "Add more starter lines for the bot to use.")
     print(msg)
+
+    key_val_f = assets_dir / config["FILES"]["key_val_f"]
+    fileio.create_file(key_val_f)
+    msg = ("5. Empty key-value pair JSON created. "
+           "Add some key-value pairs you want the "
+           "bot to fetch when you want it.")
+    print(msg)
