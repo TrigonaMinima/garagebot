@@ -45,3 +45,10 @@ def load_key_vals():
     key_val_file = assets_dir / config["FILES"]["key_val_f"]
     key_vals = load_json(key_val_file)
     return key_vals
+
+
+def load_highlights():
+    assets_dir = Path(config["DIR"]["assets"])
+    highlight_f = assets_dir / config["FILES"]["highlight_f"]
+    highlights = load_file(highlight_f)
+    return highlights
