@@ -26,6 +26,12 @@ def load_json(file_path):
     return data
 
 
+def dump_json(file_path, data):
+    data = json.dumps(data, indent=4)
+    with open(file_path, "w") as f:
+        f.write(data)
+
+
 def load_starters():
     assets_dir = Path(config["DIR"]["assets"])
     starters_file = assets_dir / config["FILES"]["start_f"]
@@ -40,6 +46,13 @@ def load_users():
     return users
 
 
+def load_highlights():
+    assets_dir = Path(config["DIR"]["assets"])
+    highlight_f = assets_dir / config["FILES"]["highlight_f"]
+    highlights = load_file(highlight_f)
+    return highlights
+
+
 def load_key_vals():
     assets_dir = Path(config["DIR"]["assets"])
     key_val_file = assets_dir / config["FILES"]["key_val_f"]
@@ -47,8 +60,7 @@ def load_key_vals():
     return key_vals
 
 
-def load_highlights():
+def dump_key_vals(data):
     assets_dir = Path(config["DIR"]["assets"])
-    highlight_f = assets_dir / config["FILES"]["highlight_f"]
-    highlights = load_file(highlight_f)
-    return highlights
+    key_val_file = assets_dir / config["FILES"]["key_val_f"]
+    dump_json(key_val_file, data)
