@@ -37,11 +37,19 @@ def check():
 
     start_f = assets_dir / config["FILES"]["start_f"]
     if not start_f.exists():
-        msg = (f"{start_f} file does not exist in {assets_dir}. "
+        msg = (f"{start_f} file does not exist. "
                "Set it up using bot/bot_setup.py")
         raise FileNotFoundError(msg)
     else:
         print(f"4. {start_f} file exists.")
+
+    key_val_f = assets_dir / config["FILES"]["key_val_f"]
+    if not key_val_f.exists():
+        msg = (f"{key_val_f} file does not exist. "
+               "Set it up using bot/bot_setup.py")
+        raise FileNotFoundError(msg)
+    else:
+        print(f"5. {key_val_f} file exists.")
 
     return 1
 
