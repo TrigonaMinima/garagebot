@@ -2,6 +2,14 @@ import sqlite3
 
 from pathlib import Path
 
+from utils.generic import load_config
+
+
+config = load_config()
+assets_dir = Path(config["DIR"]["assets"])
+db_path = assets_dir / config["DB"]["file"]
+table_name = config["DB"]["chat_table"]
+
 
 def get_connection(dbname):
     con = sqlite3.connect(dbname)
@@ -15,14 +23,15 @@ def check_db(db_path):
 
 
 def check_table(db_path, table):
+    con = get_connection(db_path)
+    cur = con.cursor()
+
     q = f"""
         SELECT name
         FROM sqlite_master
         WHERE type='table'
             AND name='{table}';
     """
-    con = get_connection(db_path)
-    cur = con.cursor()
     rows = [i for i in cur.execute(q)]
     if not rows:
         return 0
@@ -34,7 +43,7 @@ def create_db(db):
         sqlite3.connect(db)
 
 
-def create_chats_table(cursor, table_name):
+def generate_create_table_query(table_name):
     q = f"""
         CREATE TABLE IF NOT EXISTS "{table_name}" (
             "TIMESTAMP" INTEGER,
@@ -65,15 +74,50 @@ def create_chats_table(cursor, table_name):
             "RAW_JSON" TEXT
         );
     """
-    cursor.execute(q)
+    return q
 
 
 def create_db_tables(db, db_config):
     con = get_connection(db)
     cur = con.cursor()
 
-    chats_table = db_config["chat_table"]
-    create_chats_table(cur, chats_table)
+    q = generate_create_table_query(table_name)
 
+    cur.execute(q)
     con.commit()
     con.close()
+
+
+def get_table_cols():
+    table_cols = [
+        "TIMESTAMP", "CHAT_ID", "CHAT_TYPE", "CHAT_NAME", "MESSAGE",
+        "IS_COMMAND", "FROM_ID", "FROM_NAME", "IS_BOT", "QUOTED",
+        "QUOTED_PERSON_ID", "QUOTED_PERSON_NAME", "QUOTED_TEXT", "LINKS",
+        "NUM_LINKS", "GAALIYA", "NUM_GAALIYA", "IS_SCREAM", "CORRECTIONS",
+        "NUM_CORRECTIONS", "TOT_WORDS", "UNIQ_WORDS", "ADDED_TOT_WORDS",
+        "ADDED_UNIQ_WORDS", "CODE_SWITCH", "RAW_JSON"
+    ]
+    return table_cols
+
+
+def construct_insert_query(table_name, table_cols):
+    query = (
+        f"INSERT INTO {table_name} "
+        f"({','.join(table_cols)}) "
+        f"VALUES ({','.join('?'*len(table_cols))})"
+    )
+    return query
+
+
+def insert_row(row_dict):
+    row = [row_dict[col] for col in get_table_cols()]
+
+    con = get_connection(db_path)
+    cur = con.cursor()
+
+    query = construct_insert_query(table_name, get_table_cols())
+
+    cur.execute(query, row)
+    con.commit()
+    con.close()
+    return row
