@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from exceptions import DBDoesNotExistError, TableDoesNotExist
-from utils import db
+from utils.db import generic
 from utils.generic import load_config
 
 
@@ -22,7 +22,7 @@ def check():
     assets_dir = Path(config["DIR"]["assets"])
 
     db_path = assets_dir / config["DB"]["file"]
-    if not db.check_db(db_path):
+    if not generic.check_db(db_path):
         msg = (f"Sqlite3 DB does not exist at {db_path}. "
                "Set it up using bot/bot_setup.py")
         raise DBDoesNotExistError(msg)
@@ -30,7 +30,7 @@ def check():
         print("> Chat DB exists.")
 
     chat_table = config["DB"]["chat_table"]
-    if not db.check_table(db_path, chat_table):
+    if not generic.check_table(db_path, chat_table):
         msg = (f"{chat_table} table does not exist. "
                "Set it up using bot/bot_setup.py")
         raise TableDoesNotExist(msg)
