@@ -3,17 +3,16 @@ import logging
 from telegram.ext import (
     CommandHandler,
     Updater,
-    # CommandHandler, MessageHandler, Filters,
+    MessageHandler, Filters,
     #     CallbackQueryHandler
 )
 
 from checks import check
 from utils.fileio import config
 from tele_api.generic import GenericCommand
+from tele_api.monitor import Monitor
 
-# import helpers
 # from stats import Stats
-# from mazduri import Aadesh, Ashleel, Bhasha, Mazduri
 # from feedback import FeedbackHandler as FH
 
 
@@ -38,9 +37,7 @@ group0_handlers = [
         config["CMDS"]["highlight"], GenericCommand.random_highlight),
     # CommandHandler(config["CMDS"]["vulgar"], Ashleel.ashleellaundakaun),
     # CommandHandler(config["CMDS"]["cuss"], Ashleel.gaali, pass_args=True),
-    # CommandHandler("t", Bhasha.transliterate, pass_args=True),
-    # CommandHandler("new", Bhasha.shabdkosh, pass_args=True),
-    # MessageHandler(Filters.text, Mazduri.monitoring),
+    MessageHandler(Filters.text, Monitor.monitor),
 ]
 
 # group1_handlers = []

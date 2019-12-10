@@ -22,6 +22,9 @@ hard_repl = {
     },
     "random_highlight": {
         "default": "Nothing to show!"
+    },
+    "scream": {
+        "default": ", dont scream plez"
     }
 }
 
