@@ -26,7 +26,7 @@ class GenericCommandAPI(object):
         return starter
 
     @staticmethod
-    def fetch_key_val(argument):
+    def fetch_key_val(argument: list):
         """
         Method for the "/fetch" command
         """
@@ -41,14 +41,14 @@ class GenericCommandAPI(object):
         return val
 
     @staticmethod
-    def add_key_val(argument):
+    def add_key_val(argument: list):
         """
         Method for the "/add" command
         """
         key_val_dict = fileio.load_key_vals()
 
         argument = [i.strip() for i in " ".join(argument).strip().split(",")]
-        if argument[0] and argument[1]:
+        if len(argument) == 2 and argument[0] and argument[1]:
             reply = hard_repl["add_key_val"]["default_y"]
             key_val_dict[argument[0]] = argument[1]
             fileio.dump_key_vals(key_val_dict)
@@ -58,7 +58,7 @@ class GenericCommandAPI(object):
         return reply
 
     @staticmethod
-    def pop_key_val(argument):
+    def pop_key_val(argument: list):
         """
         Method for the "/pop" command
         """
@@ -67,7 +67,7 @@ class GenericCommandAPI(object):
         argument = " ".join(argument).strip()
         if argument:
             reply = hard_repl["pop_key_val"]["default_y"]
-            key_val_dict.pop(argument, None)
+            _ = key_val_dict.pop(argument, None)
             fileio.dump_key_vals(key_val_dict)
         else:
             reply = hard_repl["pop_key_val"]["default_n"]
