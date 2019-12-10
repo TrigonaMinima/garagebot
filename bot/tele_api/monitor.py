@@ -1,3 +1,5 @@
+import threading
+
 from telegram import Update
 from telegram.ext import CallbackContext
 
@@ -21,8 +23,18 @@ class Monitor(object):
         username = str(update.effective_user.username)
         current_message = update.message.text
 
-        replies = api.monitor(current_message, username)
+        replies, meta = api.monitor(current_message, username)
 
         if "scream" in replies:
             reply = replies["scream"]
             bot_reply_and_log(update, reply, quote=True)
+
+        if "yt" in replies:
+            reply = replies["yt"]
+            wait_duration = meta["yt"]
+            t = threading.Timer(
+                wait_duration,
+                bot_reply_and_log,
+                args=[update, reply, True]
+            )
+            t.start()
