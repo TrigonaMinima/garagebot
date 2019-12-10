@@ -3,6 +3,11 @@ class Error(Exception):
     pass
 
 
+class ConfigDoesNotExistError(Error):
+    def __init__(self):
+        self.message = "config.ini does not exist in the root directory!"
+
+
 class DBDoesNotExistError(Error):
     def __init__(self, message):
         self.message = message
