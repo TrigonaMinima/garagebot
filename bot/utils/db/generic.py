@@ -2,13 +2,7 @@ import sqlite3
 
 from pathlib import Path
 
-from utils.generic import load_config
-
-
-config = load_config()
-assets_dir = Path(config["DIR"]["assets"])
-db_path = assets_dir / config["DB"]["file"]
-table_name = config["DB"]["chat_table"]
+from utils.fileio import config
 
 
 def get_connection(dbname):
@@ -81,6 +75,7 @@ def create_db_tables(db, db_config):
     con = get_connection(db)
     cur = con.cursor()
 
+    table_name = config["DB"]["chat_table"]
     q = generate_create_table_query(table_name)
 
     cur.execute(q)
@@ -110,14 +105,17 @@ def construct_insert_query(table_name, table_cols):
 
 
 def insert_row(row_dict):
-    row = [row_dict[col] for col in get_table_cols()]
+    assets_dir = Path(config["DIR"]["assets"])
+    db_path = assets_dir / config["DB"]["file"]
+    table_name = config["DB"]["chat_table"]
 
     con = get_connection(db_path)
     cur = con.cursor()
 
     query = construct_insert_query(table_name, get_table_cols())
-
+    row = [row_dict[col] for col in get_table_cols()]
     cur.execute(query, row)
+
     con.commit()
     con.close()
     return row

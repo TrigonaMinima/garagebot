@@ -1,11 +1,13 @@
 import json
+import configparser
 
 from pathlib import Path
 
-from utils.generic import load_config
 
-
-config = load_config()
+def load_config():
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    return config
 
 
 def create_file(file_path):
@@ -64,3 +66,13 @@ def dump_key_vals(data):
     assets_dir = Path(config["DIR"]["assets"])
     key_val_file = assets_dir / config["FILES"]["key_val_f"]
     dump_json(key_val_file, data)
+
+
+def load_hard_replies():
+    assets_dir = Path(config["DIR"]["assets"])
+    hard_repl_f = assets_dir / config["FILES"]["hard_repl_f"]
+    hard_repl = load_json(hard_repl_f)
+    return hard_repl
+
+
+config = load_config()
