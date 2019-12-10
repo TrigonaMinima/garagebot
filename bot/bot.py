@@ -27,18 +27,17 @@ group0_handlers = [
     CommandHandler(config["CMDS"]["start"], GenericCommand.start),
     CommandHandler(
         config["CMDS"]["fetch"], GenericCommand.fetch_key_val, pass_args=True),
-    # CommandHandler(config["CMDS"]["cuss"], Ashleel.gaali, pass_args=True),
     CommandHandler(
         config["CMDS"]["add"], GenericCommand.add_key_val, pass_args=True),
     CommandHandler(
         config["CMDS"]["pop"], GenericCommand.pop_key_val, pass_args=True),
+    CommandHandler(config["CMDS"]["fuck_tab"], GenericCommand.fuck_the_tables),
     CommandHandler(
-        config["CMDS"]["fuck_tables"], GenericCommand.fuck_the_tables),
-    CommandHandler(
-        config["CMDS"]["respect_tables"], GenericCommand.respect_the_tables),
-    # CommandHandler("a", Ashleel.ashleellaundakaun),
+        config["CMDS"]["respect_tab"], GenericCommand.respect_the_tables),
     CommandHandler(
         config["CMDS"]["highlight"], GenericCommand.random_highlight),
+    # CommandHandler(config["CMDS"]["vulgar"], Ashleel.ashleellaundakaun),
+    # CommandHandler(config["CMDS"]["cuss"], Ashleel.gaali, pass_args=True),
     # CommandHandler("t", Bhasha.transliterate, pass_args=True),
     # CommandHandler("new", Bhasha.shabdkosh, pass_args=True),
     # MessageHandler(Filters.text, Mazduri.monitoring),
