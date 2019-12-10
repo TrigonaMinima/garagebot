@@ -1,11 +1,15 @@
 from pathlib import Path
 
-from exceptions import DBDoesNotExistError, TableDoesNotExist
+from exceptions import ConfigDoesNotExistError, DBDoesNotExistError, TableDoesNotExist
 from utils.db import generic
-from utils.generic import load_config
+from utils.fileio import config
 
 
-config = load_config()
+def check_config():
+    config_path = Path("config.ini")
+    if config_path.exists():
+        return 1
+    return 0
 
 
 def check_file(file_path):
@@ -19,6 +23,9 @@ def check_file(file_path):
 
 
 def check():
+    if not check_config():
+        raise ConfigDoesNotExistError
+
     assets_dir = Path(config["DIR"]["assets"])
 
     db_path = assets_dir / config["DB"]["file"]
@@ -48,6 +55,9 @@ def check():
 
     highlight_f = assets_dir / config["FILES"]["highlight_f"]
     check_file(highlight_f)
+
+    hard_repl_f = assets_dir / config["FILES"]["hard_repl_f"]
+    check_file(hard_repl_f)
 
     return 1
 
