@@ -118,15 +118,20 @@ class TestAPIFunctions(unittest.TestCase):
             self.assertDictEqual(result, expected)
 
     def test_random_highlight(self):
-        highlitghts = fileio.load_highlights() + ["Nothing to show"]
-        self.assertIn(api.random_highlight(), highlitghts)
+        result = api.random_highlight()
+        expected = fileio.load_highlights()
+        expected += [hard_repl["random_highlight"]["default"]]
+        self.assertIn(result, expected)
 
     def test_fuck_the_tables(self):
-        replies = ["(╯ಠ_ಠ)╯︵ ┻━┻", "(╯°□°)╯︵ ┻━┻"]
-        self.assertIn(api.fuck_the_tables(), replies)
+        result = api.fuck_the_tables()
+        expected = ["(╯ಠ_ಠ)╯︵ ┻━┻", "(╯°□°)╯︵ ┻━┻"]
+        self.assertIn(result, expected)
 
     def test_respect_the_tables(self):
-        self.assertEqual(api.respect_the_tables(), "┬─┬ノ(ಥ_ಥノ)")
+        result = api.respect_the_tables()
+        expected = "┬─┬ノ(ಥ_ಥノ)"
+        self.assertEqual(result, expected)
 
 
 if __name__ == '__main__':
