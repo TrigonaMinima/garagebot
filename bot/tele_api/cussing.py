@@ -16,7 +16,10 @@ class CussCommand(object):
     @staticmethod
     @restricted
     def cuss(update: Update, context: CallbackContext):
-        pass
+        to_user = " ".join(context.args).strip()
+        from_user = update.effective_user.username
+        reply = api.cuss(from_user, to_user)
+        bot_reply_and_log(update, reply)
 
     @staticmethod
     @restricted

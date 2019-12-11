@@ -65,6 +65,12 @@ def check():
     neg_rep_f = assets_dir / config["FILES"]["neg_rep_f"]
     check_file(neg_rep_f)
 
+    singular_cuss_f = assets_dir / config["FILES"]["singular_cuss_f"]
+    check_file(singular_cuss_f)
+
+    bot_alias_f = assets_dir / config["META"]["bot_alias_f"]
+    check_file(bot_alias_f)
+
     return 1
 
 

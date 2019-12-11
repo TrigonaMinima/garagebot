@@ -28,6 +28,8 @@ hard_repl = {
     }
 }
 
+default_singular_cuss = ["F**k"]
+
 if __name__ == "__main__":
     assets_dir = Path(config["DIR"]["assets"])
 
@@ -84,4 +86,19 @@ if __name__ == "__main__":
     fileio.create_file(neg_rep_f)
     msg = (f"> Default negative replies file ({neg_rep_f}) created. "
            "Update the default replies as needed")
+    print(msg)
+
+    singular_cuss_f = assets_dir / config["FILES"]["singular_cuss_f"]
+    fileio.create_file(singular_cuss_f)
+    default_singular_cuss = "\n".join(default_singular_cuss)
+    if singular_cuss_f.stat().st_size == 0:
+        fileio.dump_file(singular_cuss_f, default_singular_cuss)
+    msg = (f"> Default cuss file ({singular_cuss_f}) created. "
+           "Update the file as needed")
+    print(msg)
+
+    bot_alias_f = assets_dir / config["META"]["bot_alias_f"]
+    fileio.create_file(bot_alias_f)
+    msg = (f"> Empty bot alias file ({bot_alias_f}) created. "
+           "Add the bot aliases as needed")
     print(msg)

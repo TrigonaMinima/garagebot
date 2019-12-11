@@ -17,12 +17,23 @@ def create_file(file_path):
 
 
 def load_file(file_path):
+    if not file_path.exists():
+        return []
+
     with open(file_path, "r") as f:
         lines = [i.strip() for i in f if i]
     return lines
 
 
+def dump_file(file_path, data):
+    with open(file_path, "w") as f:
+        f.write(data)
+
+
 def load_json(file_path):
+    if not file_path.exists():
+        return {}
+
     with open(file_path, "r") as f:
         data = json.loads(f.read())
     return data
@@ -87,6 +98,20 @@ def load_neg_rep():
     neg_rep_f = assets_dir / config["FILES"]["neg_rep_f"]
     neg_rep = load_file(neg_rep_f)
     return neg_rep
+
+
+def load_singular_cusses():
+    assets_dir = Path(config["DIR"]["assets"])
+    singular_cuss_f = assets_dir / config["FILES"]["singular_cuss_f"]
+    cusses = load_file(singular_cuss_f)
+    return cusses
+
+
+def load_bot_alias():
+    assets_dir = Path(config["DIR"]["assets"])
+    bot_alias_f = assets_dir / config["META"]["bot_alias_f"]
+    aliases = load_file(bot_alias_f)
+    return set(aliases)
 
 
 config = load_config()

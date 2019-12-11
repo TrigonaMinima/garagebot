@@ -9,8 +9,9 @@ from telegram.ext import (
 
 from checks import check
 from utils.fileio import config
-from tele_api.generic import GenericCommand
 from tele_api.monitor import Monitor
+from tele_api.cussing import CussCommand
+from tele_api.generic import GenericCommand
 
 # from stats import Stats
 # from feedback import FeedbackHandler as FH
@@ -35,8 +36,8 @@ group0_handlers = [
         config["CMDS"]["respect_tab"], GenericCommand.respect_the_tables),
     CommandHandler(
         config["CMDS"]["highlight"], GenericCommand.random_highlight),
+    CommandHandler(config["CMDS"]["cuss"], CussCommand.cuss, pass_args=True),
     # CommandHandler(config["CMDS"]["vulgar"], Ashleel.ashleellaundakaun),
-    # CommandHandler(config["CMDS"]["cuss"], Ashleel.gaali, pass_args=True),
     MessageHandler(Filters.text, Monitor.monitor),
 ]
 
