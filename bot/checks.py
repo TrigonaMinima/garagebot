@@ -71,6 +71,9 @@ def check():
     bot_alias_f = assets_dir / config["META"]["bot_alias_f"]
     check_file(bot_alias_f)
 
+    cuss_all_f = assets_dir / config["FILES"]["cuss_all_f"]
+    check_file(cuss_all_f)
+
     return 1
 
 

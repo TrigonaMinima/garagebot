@@ -4,6 +4,7 @@ from social.yt import YT
 from utils import fileio
 from utils.text import words
 from intel.sentiment import sentiment
+from intel.abuse import detect_cuss
 
 
 hard_repl = fileio.load_hard_replies()
@@ -11,16 +12,20 @@ hard_repl = fileio.load_hard_replies()
 
 class MonitorAPI(object):
     @staticmethod
-    def monitor(text, from_user):
+    def monitor(message, from_user):
         replies = {}
         meta = {}
 
+        cuss_detected = detect_cuss(message)
+        if cuss_detected is not None:
+            meta["cuss"] = cuss_detected
+
         # dont scream
-        if MonitorAPI.scream(text):
+        if MonitorAPI.scream(message):
             replies["scream"] = f"@{from_user}{hard_repl['scream']['default']}"
 
         # watching the video
-        match = YT.get_yt_links(text)
+        match = YT.get_yt_links(message)
         if match:
             vid_id = match.groups()[0]
             vid_duration = YT.yt_vid_reply_duration(vid_id)
@@ -29,7 +34,7 @@ class MonitorAPI(object):
             meta["yt"] = vid_duration
 
         # bot's reaction when talked to
-        senti = sentiment(text)
+        senti = sentiment(message)
         if senti >= 0:
             replies["sentiment"] = MonitorAPI.bot_sentiment(senti)
 

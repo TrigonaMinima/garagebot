@@ -102,3 +102,10 @@ if __name__ == "__main__":
     msg = (f"> Empty bot alias file ({bot_alias_f}) created. "
            "Add the bot aliases as needed")
     print(msg)
+
+    cuss_all_f = assets_dir / config["FILES"]["cuss_all_f"]
+    fileio.create_file(cuss_all_f)
+    msg = (f"> Empty bot alias file ({cuss_all_f}) created. "
+           "Select your naughty strings from here - "
+           "https://github.com/minimaxir/big-list-of-naughty-strings")
+    print(msg)

@@ -107,6 +107,13 @@ def load_singular_cusses():
     return cusses
 
 
+def load_all_cusses():
+    assets_dir = Path(config["DIR"]["assets"])
+    cuss_all_f = assets_dir / config["FILES"]["cuss_all_f"]
+    cusses = load_file(cuss_all_f)
+    return cusses
+
+
 def load_bot_alias():
     assets_dir = Path(config["DIR"]["assets"])
     bot_alias_f = assets_dir / config["META"]["bot_alias_f"]

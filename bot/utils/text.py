@@ -1,5 +1,7 @@
 import unicodedata
 
+from functools import reduce
+
 from utils import regexps
 
 
@@ -57,3 +59,18 @@ def words(text):
         words[i] = word
     words = filter(lambda x: 1 < len(x) < 25, words)
     return words
+
+
+def reduce_word(word):
+    """Converts 'reaaaaaally' to 'realy'."""
+    return reduce(lambda x, y: x if x[-1] == y else x + y, word)
+
+
+def ngrams(words, k, sep=" "):
+    """Returns n-grams reduced."""
+    n = len(words)
+    if n < k:
+        return []
+    new_words = [sep.join(words[i:i + k]) for i in range(n - k + 1)]
+    new_words = [reduce_word(word) for word in new_words]
+    return new_words
