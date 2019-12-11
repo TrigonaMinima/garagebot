@@ -75,4 +75,18 @@ def load_hard_replies():
     return hard_repl
 
 
+def load_pos_rep():
+    assets_dir = Path(config["DIR"]["assets"])
+    pos_rep_f = assets_dir / config["FILES"]["pos_rep_f"]
+    pos_rep = load_file(pos_rep_f)
+    return pos_rep
+
+
+def load_neg_rep():
+    assets_dir = Path(config["DIR"]["assets"])
+    neg_rep_f = assets_dir / config["FILES"]["neg_rep_f"]
+    neg_rep = load_file(neg_rep_f)
+    return neg_rep
+
+
 config = load_config()

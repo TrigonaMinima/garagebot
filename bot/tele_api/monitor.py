@@ -14,6 +14,19 @@ def bot_reply_and_log(update, reply, quote=False, **args):
     log_bot_reply(bot_reply)
 
 
+def is_replied_to_bot(update):
+    """
+    Checks if current message is a reply to bot's message.
+    """
+    is_replied = 0
+    if update.effective_message.reply_to_message:
+        replied_to_msg = update.effective_message.reply_to_message
+        replied_to_user = replied_to_msg.from_user.username
+        if replied_to_user == fileio.config["META"]["bot_username"]:
+            is_replied = 1
+    return is_replied
+
+
 class Monitor(object):
 
     @staticmethod
@@ -38,3 +51,7 @@ class Monitor(object):
                 args=[update, reply, True]
             )
             t.start()
+
+        if is_replied_to_bot(update) and "sentiment" in replies:
+            reply = replies["sentiment"]
+            bot_reply_and_log(update, reply, True)

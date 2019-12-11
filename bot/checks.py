@@ -59,6 +59,12 @@ def check():
     hard_repl_f = assets_dir / config["FILES"]["hard_repl_f"]
     check_file(hard_repl_f)
 
+    pos_rep_f = assets_dir / config["FILES"]["pos_rep_f"]
+    check_file(pos_rep_f)
+
+    neg_rep_f = assets_dir / config["FILES"]["neg_rep_f"]
+    check_file(neg_rep_f)
+
     return 1
 
 

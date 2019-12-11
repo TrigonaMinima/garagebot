@@ -73,3 +73,15 @@ if __name__ == "__main__":
     msg = (f"> Default hard replies file ({hard_repl_f}) created. "
            "Update the default replies for each command as needed")
     print(msg)
+
+    pos_rep_f = assets_dir / config["FILES"]["pos_rep_f"]
+    fileio.create_file(pos_rep_f)
+    msg = (f"> Default positive replies file ({pos_rep_f}) created. "
+           "Update the default replies as needed.")
+    print(msg)
+
+    neg_rep_f = assets_dir / config["FILES"]["neg_rep_f"]
+    fileio.create_file(neg_rep_f)
+    msg = (f"> Default negative replies file ({neg_rep_f}) created. "
+           "Update the default replies as needed")
+    print(msg)
