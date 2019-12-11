@@ -1,6 +1,6 @@
 import threading
 
-from telegram import Update
+from telegram import Update, MessageEntity
 from telegram.ext import CallbackContext
 
 from utils import fileio
@@ -38,20 +38,21 @@ class Monitor(object):
 
         replies, meta = api.monitor(current_message, username)
 
-        if "scream" in replies:
-            reply = replies["scream"]
-            bot_reply_and_log(update, reply, quote=True)
+        if current_message is not None:
+            if "scream" in replies:
+                reply = replies["scream"]
+                bot_reply_and_log(update, reply, quote=True)
 
-        if "yt" in replies:
-            reply = replies["yt"]
-            wait_duration = meta["yt"]
-            t = threading.Timer(
-                wait_duration,
-                bot_reply_and_log,
-                args=[update, reply, True]
-            )
-            t.start()
+            if "yt" in replies:
+                reply = replies["yt"]
+                wait_duration = meta["yt"]
+                t = threading.Timer(
+                    wait_duration,
+                    bot_reply_and_log,
+                    args=[update, reply, True]
+                )
+                t.start()
 
-        if is_replied_to_bot(update) and "sentiment" in replies:
-            reply = replies["sentiment"]
-            bot_reply_and_log(update, reply, True)
+            if is_replied_to_bot(update) and "sentiment" in replies:
+                reply = replies["sentiment"]
+                bot_reply_and_log(update, reply, True)
