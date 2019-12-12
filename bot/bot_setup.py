@@ -32,6 +32,12 @@ default_singular_cuss = ["F**k"]
 
 if __name__ == "__main__":
     assets_dir = Path(config["DIR"]["assets"])
+    assets_dir.mkdir(exist_ok=True)
+    print(f"> Created assets dir ({assets_dir})")
+
+    models_dir = Path(config["DIR"]["models"])
+    models_dir.mkdir(exist_ok=True)
+    print(f"> Created models dir ({models_dir})")
 
     db_path = assets_dir / config["DB"]["file"]
     generic.create_db(db_path)

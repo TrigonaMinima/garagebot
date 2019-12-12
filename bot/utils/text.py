@@ -74,3 +74,14 @@ def ngrams(words, k, sep=" "):
     new_words = [sep.join(words[i:i + k]) for i in range(n - k + 1)]
     new_words = [reduce_word(word) for word in new_words]
     return new_words
+
+
+def valid_word(word):
+    is_valid = 1
+    if len(word) <= 1:
+        is_valid = 0
+    elif any(map(str.isnumeric, word)):
+        is_valid = 0
+    elif "_" in word:
+        is_valid = 0
+    return is_valid

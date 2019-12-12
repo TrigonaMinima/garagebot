@@ -37,6 +37,7 @@ class Monitor(object):
         current_message = update.message.text
 
         replies, meta = api.monitor(current_message, username)
+        print(meta)
 
         if current_message is not None:
             if "scream" in replies:
@@ -56,3 +57,8 @@ class Monitor(object):
             if is_replied_to_bot(update) and "sentiment" in replies:
                 reply = replies["sentiment"]
                 bot_reply_and_log(update, reply, True)
+
+            if "spell" in replies:
+                for reply in replies["spell"]:
+                    bot_reply_and_log(
+                        update, reply, quote=False)
