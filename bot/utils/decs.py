@@ -23,3 +23,18 @@ def restricted(func):
 
         return func(update, context, *args, **kwargs)
     return wrapped
+
+
+def restricted_no_logging(func):
+    """
+    Decorator to only allow the specific users to call the functions.
+    """
+    @wraps(func)
+    def wrapped(update: Update, context: CallbackContext, *args, **kwargs):
+        user_id = str(update.effective_user.id)
+        if users and user_id not in users:
+            print("Unauthorized access denied for {}.".format(user_id))
+            return
+
+        return func(update, context, *args, **kwargs)
+    return wrapped

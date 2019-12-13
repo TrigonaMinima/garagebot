@@ -4,7 +4,7 @@ from telegram import Update, MessageEntity
 from telegram.ext import CallbackContext
 
 from utils import fileio
-from utils.decs import restricted
+from utils.decs import restricted_no_logging
 from utils.db.logging import log_bot_reply, log_text_replies
 from api.monitor import MonitorAPI as api
 from tele_api.feedback import FeedbackButtons as feedback_buttons
@@ -39,7 +39,7 @@ def get_spell_feedback_buttons(update: Update):
 class Monitor(object):
 
     @staticmethod
-    @restricted
+    @restricted_no_logging
     def monitor(update: Update, context: CallbackContext):
         # userid = str(update.effective_user.id)
         username = str(update.effective_user.username)
@@ -52,7 +52,7 @@ class Monitor(object):
         update.message.text = current_message
 
         replies, meta = api.monitor(current_message, username)
-        print(meta)
+        log_text_replies(update, meta)
 
         if current_message is not None:
             if "scream" in replies:
@@ -78,5 +78,3 @@ class Monitor(object):
                 for reply in replies["spell"]:
                     bot_reply_and_log(
                         update, reply, quote=False, reply_markup=button_markup)
-
-        log_text_replies(update, meta)

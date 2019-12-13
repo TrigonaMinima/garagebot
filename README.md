@@ -9,8 +9,6 @@ Spectacular Telegram bot for group chats making all the interactions fun. There'
 It is coded in `Python 3.6+` (f-strings are used everywhere). Following are the modules which are needed/used for various things.
 
 - `python-telegram-bot`
-- `wordcloud`
-- `wikipedia`
 - `google-api-python-client`
 
 

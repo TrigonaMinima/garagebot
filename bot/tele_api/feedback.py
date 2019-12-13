@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from utils.db import logging
-from utils.decs import restricted
+from utils.decs import restricted_no_logging
 from api.feedback import FeedbackHandlerAPI as api
 
 
@@ -40,7 +40,7 @@ class FeedbackHandler(object):
     """
 
     @staticmethod
-    @restricted
+    @restricted_no_logging
     def correction_feedback(update: Update, context: CallbackContext):
         """
         Gets the feedback from the button and then
