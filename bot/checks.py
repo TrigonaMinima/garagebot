@@ -29,7 +29,7 @@ def check_dir(dir_path):
                "Set it up using bot/bot_setup.py")
         raise DirDoesNotExist(msg)
     else:
-        print("> {dir_path} dir exists.")
+        print(f"> {dir_path} dir exists.")
 
 
 def check():
@@ -90,6 +90,16 @@ def check():
 
     spell_f = models_dir / config["MODEL"]["spell_f"]
     check_file(spell_f)
+
+    data_dir = Path(config["DIR"]["data"])
+    spell_correct_f = data_dir / config["FEED"]["spell_correct_f"]
+    check_file(spell_correct_f)
+
+    spell_wrong_f = data_dir / config["FEED"]["spell_wrong_f"]
+    check_file(spell_wrong_f)
+
+    spell_new_f = data_dir / config["FEED"]["spell_new_f"]
+    check_file(spell_new_f)
 
     return 1
 

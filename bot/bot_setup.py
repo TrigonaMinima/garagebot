@@ -37,6 +37,7 @@ if __name__ == "__main__":
 
     models_dir = Path(config["DIR"]["models"])
     models_dir.mkdir(exist_ok=True)
+    (models_dir / "spell").mkdir(exist_ok=True)
     print(f"> Created models dir ({models_dir})")
 
     db_path = assets_dir / config["DB"]["file"]
@@ -114,4 +115,29 @@ if __name__ == "__main__":
     msg = (f"> Empty bot alias file ({cuss_all_f}) created. "
            "Select your naughty strings from here - "
            "https://github.com/minimaxir/big-list-of-naughty-strings")
+    print(msg)
+
+    # TODO: add spelling counter setup
+
+    data_dir = Path(config["DIR"]["data"])
+    data_dir.mkdir(exist_ok=True)
+    (data_dir / "spell").mkdir(exist_ok=True)
+    print(f"> Created data dir ({data_dir})")
+
+    spell_correct_f = data_dir / config["FEED"]["spell_correct_f"]
+    fileio.create_file(spell_correct_f)
+    msg = (f"> Empty spell correction related file ({spell_correct_f}) "
+           "created.")
+    print(msg)
+
+    spell_wrong_f = data_dir / config["FEED"]["spell_wrong_f"]
+    fileio.create_file(spell_wrong_f)
+    msg = (f"> Empty spell correction related file ({spell_wrong_f}) "
+           "created.")
+    print(msg)
+
+    spell_new_f = data_dir / config["FEED"]["spell_new_f"]
+    fileio.create_file(spell_new_f)
+    msg = (f"> Empty spell correction related file ({spell_new_f}) "
+           "created.")
     print(msg)

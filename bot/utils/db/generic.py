@@ -10,6 +10,20 @@ def get_connection(dbname):
     return con
 
 
+def execute_query(query):
+    assets_dir = Path(config["DIR"]["assets"])
+    db_path = assets_dir / config["DB"]["file"]
+
+    con = get_connection(db_path)
+    cur = con.cursor()
+
+    row = list(cur.execute(query))
+
+    con.commit()
+    con.close()
+    return row
+
+
 def check_db(db_path):
     if not db_path.exists():
         return 0

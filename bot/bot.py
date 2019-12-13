@@ -4,7 +4,7 @@ from telegram.ext import (
     CommandHandler,
     Updater,
     MessageHandler, Filters,
-    #     CallbackQueryHandler
+    CallbackQueryHandler
 )
 
 from checks import check
@@ -12,9 +12,9 @@ from utils.fileio import config
 from tele_api.monitor import Monitor
 from tele_api.cussing import CussCommand
 from tele_api.generic import GenericCommand
+from tele_api.feedback import FeedbackHandler
 
 # from stats import Stats
-# from feedback import FeedbackHandler as FH
 
 
 # Enable logging
@@ -54,8 +54,8 @@ def main():
     updater = Updater(token=bot_token, use_context=True)
     dp = updater.dispatcher
 
-    # updater.dispatcher.add_handler(
-    #     CallbackQueryHandler(FH.correction_feedback))
+    updater.dispatcher.add_handler(
+        CallbackQueryHandler(FeedbackHandler.correction_feedback))
 
     for handler in group0_handlers:
         dp.add_handler(handler, group=0)

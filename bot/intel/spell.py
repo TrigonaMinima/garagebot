@@ -10,6 +10,10 @@ class StatSpellCorrector():
         self.N = sum(self.WORDS.values())
         print("> Spelling correction model loaded")
 
+    def update(self, words):
+        self.WORDS.update(words)
+        self.N = sum(self.WORDS.values())
+
     def case_of(self, word):
         """
         Return the case-function appropriate for word: upper, lower, title,
@@ -31,9 +35,9 @@ class StatSpellCorrector():
         Generate possible spelling corrections for word.
         """
         return (
-            self.known([word])
-            or self.known(self.edits1(word))
-            or self.known(self.edits2(word)) or [word]
+            self.known([word]) or
+            self.known(self.edits1(word)) or
+            self.known(self.edits2(word)) or [word]
         )
 
     def known(self, words):

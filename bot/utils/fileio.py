@@ -30,6 +30,11 @@ def dump_file(file_path, data):
         f.write(data)
 
 
+def append_file(file_path, data):
+    with open(file_path, "a") as f:
+        f.write(data)
+
+
 def load_json(file_path):
     if not file_path.exists():
         return {}

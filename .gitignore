@@ -3,3 +3,5 @@ __pycache__/*
 assets/*.db
 assets/*.txt
 assets/*.json
+data/*
+models/*

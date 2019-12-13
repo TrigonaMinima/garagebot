@@ -5,16 +5,17 @@ from telegram.ext import CallbackContext
 
 from utils import fileio
 from utils.decs import restricted
-from utils.db.logging import log_bot_reply
+from utils.db.logging import log_bot_reply, log_text_replies
 from api.monitor import MonitorAPI as api
+from tele_api.feedback import FeedbackButtons as feedback_buttons
 
 
-def bot_reply_and_log(update, reply, quote=False, **args):
+def bot_reply_and_log(update: Update, reply, quote=False, **args):
     bot_reply = update.message.reply_text(reply, **args, quote=quote)
     log_bot_reply(bot_reply)
 
 
-def is_replied_to_bot(update):
+def is_replied_to_bot(update: Update):
     """
     Checks if current message is a reply to bot's message.
     """
@@ -27,14 +28,28 @@ def is_replied_to_bot(update):
     return is_replied
 
 
+def get_spell_feedback_buttons(update: Update):
+    timestamp = update.effective_message.date.strftime("%s")
+    user = update.effective_user.id
+    button_tracker = f"{timestamp}_{user}"
+    button_markup = feedback_buttons.correction_feedback_button(button_tracker)
+    return button_markup
+
+
 class Monitor(object):
 
     @staticmethod
     @restricted
     def monitor(update: Update, context: CallbackContext):
-        userid = str(update.effective_user.id)
+        # userid = str(update.effective_user.id)
         username = str(update.effective_user.username)
         current_message = update.message.text
+
+        # handles links when markdown like format is used
+        entities = update.message.parse_entities([MessageEntity.TEXT_LINK])
+        for link in entities:
+            current_message += f" {link.url}"
+        update.message.text = current_message
 
         replies, meta = api.monitor(current_message, username)
         print(meta)
@@ -58,7 +73,10 @@ class Monitor(object):
                 reply = replies["sentiment"]
                 bot_reply_and_log(update, reply, True)
 
+            button_markup = get_spell_feedback_buttons(update)
             if "spell" in replies:
                 for reply in replies["spell"]:
                     bot_reply_and_log(
-                        update, reply, quote=False)
+                        update, reply, quote=False, reply_markup=button_markup)
+
+        log_text_replies(update, meta)

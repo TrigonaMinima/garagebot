@@ -24,10 +24,12 @@ class MonitorAPI(object):
         # get spelling corrections
         corrections = MonitorAPI.spell_correct(message)
         if corrections:
-            meta["spell"] = corrections
+            meta["spell"] = []
             replies["spell"] = []
             for (w, w_correct) in corrections:
-                replies["spell"].append(f"s/{w}/{w_correct}")
+                correction = f"s/{w}/{w_correct}"
+                replies["spell"].append(correction)
+                meta["spell"].append(correction)
 
         # detects cussing words
         cuss_detected = detect_cuss(message)
@@ -43,6 +45,7 @@ class MonitorAPI(object):
         # dont scream
         if MonitorAPI.scream(message):
             replies["scream"] = f"@{from_user}{hard_repl['scream']['default']}"
+            meta["scream"] = 1
 
         # watching the video
         match = YT.get_yt_links(message)
