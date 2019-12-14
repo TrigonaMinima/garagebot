@@ -1,6 +1,7 @@
 import unicodedata
 
 from functools import reduce
+from collections import Counter
 
 from utils import regexps
 
@@ -38,6 +39,7 @@ def words(text):
     - Hindi characters are preserved
     - Other foreign characters are truncated
     """
+    text = text.strip()
     for word in regexps.str_replace:
         text = regexps.str_replace[word].sub(word, text)
 
@@ -85,3 +87,14 @@ def valid_word(word):
     elif "_" in word:
         is_valid = 0
     return is_valid
+
+
+def get_text_counter(text):
+    """
+    Takes in a text and returns the word frequency counts as a
+    `Counter` object.
+    """
+    counter = Counter()
+    text_words = words(text)
+    counter.update(text_words)
+    return counter

@@ -8,9 +8,9 @@ class FeedbackHandlerAPI(object):
     @staticmethod
     def correction_feedback(option, correction):
         data_dir = Path(fileio.config["DIR"]["data"])
-        spell_correct_f = data_dir / fileio.config["FEED"]["spell_correct_f"]
-        spell_wrong_f = data_dir / fileio.config["FEED"]["spell_wrong_f"]
-        spell_new_f = data_dir / fileio.config["FEED"]["spell_new_f"]
+        spell_correct_f = data_dir / fileio.config["DATA"]["spell_correct_f"]
+        spell_wrong_f = data_dir / fileio.config["DATA"]["spell_wrong_f"]
+        spell_new_f = data_dir / fileio.config["DATA"]["spell_new_f"]
 
         flag = 0
         option = option.split("_")[0]

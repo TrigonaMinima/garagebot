@@ -1,3 +1,5 @@
+# Code copied from:
+# https://norvig.com/spell-correct.html
 import re
 
 from utils import modelio
@@ -13,6 +15,9 @@ class StatSpellCorrector():
     def update(self, words):
         self.WORDS.update(words)
         self.N = sum(self.WORDS.values())
+
+    def reload(self):
+        self.__init__()
 
     def case_of(self, word):
         """

@@ -3,6 +3,7 @@ from pathlib import Path
 from utils import fileio
 from utils.db import generic
 from utils.fileio import config
+from intel.spell_train import StatSpellCorrectorTrain
 
 
 hard_repl = {
@@ -39,6 +40,11 @@ if __name__ == "__main__":
     models_dir.mkdir(exist_ok=True)
     (models_dir / "spell").mkdir(exist_ok=True)
     print(f"> Created models dir ({models_dir})")
+
+    data_dir = Path(config["DIR"]["data"])
+    data_dir.mkdir(exist_ok=True)
+    (data_dir / "spell").mkdir(exist_ok=True)
+    print(f"> Created data dir ({data_dir})")
 
     db_path = assets_dir / config["DB"]["file"]
     generic.create_db(db_path)
@@ -112,31 +118,43 @@ if __name__ == "__main__":
 
     cuss_all_f = assets_dir / config["FILES"]["cuss_all_f"]
     fileio.create_file(cuss_all_f)
-    msg = (f"> Empty bot alias file ({cuss_all_f}) created. "
+    msg = (f"> Empty cusses file ({cuss_all_f}) created. "
            "Select your naughty strings from here - "
            "https://github.com/minimaxir/big-list-of-naughty-strings")
     print(msg)
 
-    # TODO: add spelling counter setup
+    model_train_f = data_dir / config["DATA"]["spell_data_f"]
+    model_f = models_dir / config["MODEL"]["spell_f"]
+    if model_train_f.exists():
+        print("> Training spelling correction model.")
+        StatSpellCorrectorTrain()
+    elif model_f.exists():
+        print(f"> No training file ({model_train_f}) exists. "
+              f"Previous model file ({model_f}) exists. Will use that. To "
+              "update it add the training data and run bot/bot_setup.py again.")
+    else:
+        msg = ("Spelling correction training file does not exist."
+               "Older model also doesn't exist."
+               f"Add a training file at {model_train_f} to continue.")
+        raise FileNotFoundError(msg)
 
-    data_dir = Path(config["DIR"]["data"])
     data_dir.mkdir(exist_ok=True)
     (data_dir / "spell").mkdir(exist_ok=True)
     print(f"> Created data dir ({data_dir})")
 
-    spell_correct_f = data_dir / config["FEED"]["spell_correct_f"]
+    spell_correct_f = data_dir / config["DATA"]["spell_correct_f"]
     fileio.create_file(spell_correct_f)
     msg = (f"> Empty spell correction related file ({spell_correct_f}) "
            "created.")
     print(msg)
 
-    spell_wrong_f = data_dir / config["FEED"]["spell_wrong_f"]
+    spell_wrong_f = data_dir / config["DATA"]["spell_wrong_f"]
     fileio.create_file(spell_wrong_f)
     msg = (f"> Empty spell correction related file ({spell_wrong_f}) "
            "created.")
     print(msg)
 
-    spell_new_f = data_dir / config["FEED"]["spell_new_f"]
+    spell_new_f = data_dir / config["DATA"]["spell_new_f"]
     fileio.create_file(spell_new_f)
     msg = (f"> Empty spell correction related file ({spell_new_f}) "
            "created.")

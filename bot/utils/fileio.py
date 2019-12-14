@@ -3,6 +3,8 @@ import configparser
 
 from pathlib import Path
 
+from utils import text as text_utils
+
 
 def load_config():
     config = configparser.ConfigParser()
@@ -124,6 +126,15 @@ def load_bot_alias():
     bot_alias_f = assets_dir / config["META"]["bot_alias_f"]
     aliases = load_file(bot_alias_f)
     return set(aliases)
+
+
+def prepare_file_counter(filepath):
+    """
+    Reads the textfile and prepares a counter.
+    """
+    with open(filepath, "r") as f:
+        file_counter = text_utils.get_text_counter(f.read())
+    return file_counter
 
 
 config = load_config()

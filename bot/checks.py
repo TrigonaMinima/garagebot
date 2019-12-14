@@ -13,6 +13,16 @@ def check_config():
     return 0
 
 
+def check_model_file(file_path):
+    if not file_path.exists():
+        print()
+        msg = (f"Model file ({file_path}) does not exist. "
+               "Set it up using bot/bot_setup.py")
+        raise FileNotFoundError(msg)
+    else:
+        print(f"> Model file ({file_path}) exists.")
+
+
 def check_file(file_path):
     if not file_path.exists():
         print()
@@ -88,17 +98,17 @@ def check():
     cuss_all_f = assets_dir / config["FILES"]["cuss_all_f"]
     check_file(cuss_all_f)
 
-    spell_f = models_dir / config["MODEL"]["spell_f"]
-    check_file(spell_f)
+    spell_model_f = models_dir / config["MODEL"]["spell_f"]
+    check_model_file(spell_model_f)
 
     data_dir = Path(config["DIR"]["data"])
-    spell_correct_f = data_dir / config["FEED"]["spell_correct_f"]
+    spell_correct_f = data_dir / config["DATA"]["spell_correct_f"]
     check_file(spell_correct_f)
 
-    spell_wrong_f = data_dir / config["FEED"]["spell_wrong_f"]
+    spell_wrong_f = data_dir / config["DATA"]["spell_wrong_f"]
     check_file(spell_wrong_f)
 
-    spell_new_f = data_dir / config["FEED"]["spell_new_f"]
+    spell_new_f = data_dir / config["DATA"]["spell_new_f"]
     check_file(spell_new_f)
 
     return 1

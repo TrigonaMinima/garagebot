@@ -2,10 +2,10 @@ import random
 import pysnooper
 
 from social.yt import YT
-from utils import fileio, text as text_utils
 from intel.abuse import detect_cuss
 from intel.sentiment import sentiment
 from intel.spell import StatSpellCorrector
+from utils import fileio, text as text_utils
 
 
 corrector = StatSpellCorrector()
