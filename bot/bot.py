@@ -8,7 +8,9 @@ from telegram.ext import (
 )
 
 from checks import check
+from utils import date as date_utils
 from utils.fileio import config
+from tele_api.stats import Stats
 from tele_api.monitor import Monitor
 from tele_api.cussing import CussCommand
 from tele_api.generic import GenericCommand
@@ -43,6 +45,12 @@ group0_handlers = [
 
 # group1_handlers = []
 
+crons = [{
+    "func": Stats.gen_wordcloud,
+    "interval": date_utils.week_delta,
+    "first": date_utils.closest_monday
+}]
+
 
 def error_callback(update, context):
     """Log Errors caused by Updates."""
@@ -63,9 +71,13 @@ def main():
     # for handler in group1_handlers:
     #     dp.add_handler(handler, group=1)
 
-    # day_delta = helpers.get_time_delta(1)
-    # week_delta = helpers.get_time_delta(7)
-    # closest_monday = helpers.get_next_closest_day("monday")
+    # setup periodic stats
+    for cron_job in crons:
+        cron = cron_job["func"]
+        interval = cron_job["interval"]
+        first = cron_job["first"]
+        updater.job_queue.run_repeating(cron, interval=interval, first=first)
+
     # updater.job_queue.run_repeating(
     #     Stats.weekly_gaaliya, interval=week_delta, first=closest_monday)
 

@@ -128,6 +128,13 @@ def load_bot_alias():
     return set(aliases)
 
 
+def load_stop_words():
+    assets_dir = Path(config["DIR"]["assets"])
+    stop_hing_f = assets_dir / config["FILES"]["stop_hing_f"]
+    stop = load_file(stop_hing_f)
+    return list(set(stop))
+
+
 def prepare_file_counter(filepath):
     """
     Reads the textfile and prepares a counter.

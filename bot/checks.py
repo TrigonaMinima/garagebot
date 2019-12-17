@@ -111,6 +111,9 @@ def check():
     spell_new_f = data_dir / config["DATA"]["spell_new_f"]
     check_file(spell_new_f)
 
+    stop_hing_f = assets_dir / config["FILES"]["stop_hing_f"]
+    check_file(stop_hing_f)
+
     return 1
 
 

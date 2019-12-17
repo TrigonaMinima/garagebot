@@ -159,3 +159,10 @@ if __name__ == "__main__":
     msg = (f"> Empty spell correction related file ({spell_new_f}) "
            "created.")
     print(msg)
+
+    stop_hing_f = assets_dir / config["FILES"]["stop_hing_f"]
+    fileio.create_file(stop_hing_f)
+    msg = (f"> Empty hinglish stop words file ({stop_hing_f}) created. "
+           "Update the file with stop words to be removed from the wordcloud "
+           "as needed")
+    print(msg)
