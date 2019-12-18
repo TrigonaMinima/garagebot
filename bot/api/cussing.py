@@ -1,10 +1,14 @@
 import random
 
 from utils import fileio
+from utils.db import queries
+from utils import date as date_utils
 
 
 singular_cusses = fileio.load_singular_cusses()
 bot_aliases = fileio.load_bot_alias()
+hard_repl = fileio.load_hard_replies()
+user_dict = queries.get_users()
 
 
 class CussCommandAPI(object):
@@ -21,8 +25,19 @@ class CussCommandAPI(object):
         return reply
 
     @staticmethod
-    def vulgar():
-        pass
+    def vulgar(userid):
+        date_from = date_utils.get_last_monday().timestamp()
+        counts = queries.get_cuss_counts(date_from)
+        print(counts)
+
+        if any(counts.values()):
+            reply = ""
+            for user in counts:
+                reply += f"`{user_dict[user]:<12}` -\t{counts[user]: 5}\n"
+        else:
+            reply = hard_repl["vulgar"]["default_n"]
+
+        return reply
 
 
 def random_cuss():

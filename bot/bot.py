@@ -39,17 +39,23 @@ group0_handlers = [
     CommandHandler(
         config["CMDS"]["highlight"], GenericCommand.random_highlight),
     CommandHandler(config["CMDS"]["cuss"], CussCommand.cuss, pass_args=True),
-    # CommandHandler(config["CMDS"]["vulgar"], Ashleel.ashleellaundakaun),
+    CommandHandler(config["CMDS"]["vulgar"], CussCommand.vulgar),
     MessageHandler(Filters.text, Monitor.monitor),
 ]
 
 # group1_handlers = []
 
-crons = [{
-    "func": Stats.gen_wordcloud,
-    "interval": date_utils.week_delta,
-    "first": date_utils.closest_monday
-}]
+crons = [
+    {
+        "func": Stats.weekly_cussing,
+        "interval": date_utils.week_delta,
+        "first": date_utils.closest_monday
+    }, {
+        "func": Stats.gen_wordcloud,
+        "interval": date_utils.week_delta,
+        "first": date_utils.closest_tuesday
+    }
+]
 
 
 def error_callback(update, context):
@@ -77,13 +83,6 @@ def main():
         interval = cron_job["interval"]
         first = cron_job["first"]
         updater.job_queue.run_repeating(cron, interval=interval, first=first)
-
-    # updater.job_queue.run_repeating(
-    #     Stats.weekly_gaaliya, interval=week_delta, first=closest_monday)
-
-    # closest_tuesday = helpers.get_next_closest_day("tuesday")
-    # updater.job_queue.run_repeating(
-    #     Stats.gen_wordcloud, interval=week_delta, first=closest_tuesday)
 
     # closest_wednesday = helpers.get_next_closest_day("wednesday")
     # updater.job_queue.run_repeating(

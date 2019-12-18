@@ -1,3 +1,5 @@
+import telegram
+
 from telegram import Update
 from telegram.ext import CallbackContext
 
@@ -24,4 +26,8 @@ class CussCommand(object):
     @staticmethod
     @restricted
     def vulgar(update: Update, context: CallbackContext):
-        pass
+        userid = str(update.effective_user.id)
+        reply = api.vulgar(userid)
+
+        bot_reply_and_log(update, reply, quote=False,
+                          parse_mode=telegram.ParseMode.MARKDOWN)

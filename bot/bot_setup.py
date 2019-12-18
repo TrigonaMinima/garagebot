@@ -26,6 +26,19 @@ hard_repl = {
     },
     "scream": {
         "default": ", dont scream plez"
+    },
+    "yt": {
+        "default_n1": "Cant watch a video that big!!",
+        "default_n2": "That video is too small to make any sense of!!",
+        "default_y": "Interesting vid. Anybody else done watching this video?"
+    },
+    "weekly_cussing": {
+        "default_y1": "Starting new week! Scores from the previous week:\n\n",
+        "default_y2": "\nPlease don't cuss as much this week.",
+        "default_n": "Great work! No one cussed this week!"
+    },
+    "vulgar": {
+        "default_n": "No one is vulgar right now."
     }
 }
 
