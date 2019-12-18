@@ -54,6 +54,10 @@ crons = [
         "func": Stats.gen_wordcloud,
         "interval": date_utils.week_delta,
         "first": date_utils.closest_tuesday
+    }, {
+        "func": Stats.weekly_commands,
+        "interval": date_utils.week_delta,
+        "first": date_utils.closest_wednesday
     }
 ]
 
@@ -83,18 +87,6 @@ def main():
         interval = cron_job["interval"]
         first = cron_job["first"]
         updater.job_queue.run_repeating(cron, interval=interval, first=first)
-
-    # closest_wednesday = helpers.get_next_closest_day("wednesday")
-    # updater.job_queue.run_repeating(
-    #     Stats.weekly_links, interval=week_delta, first=closest_wednesday)
-
-    # closest_thursday = helpers.get_next_closest_day("thursday")
-    # updater.job_queue.run_repeating(
-    #     Stats.weekly_corrections, interval=week_delta, first=closest_thursday)
-
-    # closest_friday = helpers.get_next_closest_day("friday")
-    # updater.job_queue.run_repeating(
-    #     Stats.weekly_commands, interval=week_delta, first=closest_friday)
 
     # closest_saturday = helpers.get_next_closest_day("saturday")
     # updater.job_queue.run_repeating(

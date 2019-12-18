@@ -32,13 +32,17 @@ hard_repl = {
         "default_n2": "That video is too small to make any sense of!!",
         "default_y": "Interesting vid. Anybody else done watching this video?"
     },
+    "vulgar": {
+        "default_n": "No one is vulgar right now."
+    },
     "weekly_cussing": {
         "default_y1": "Starting new week! Scores from the previous week:\n\n",
         "default_y2": "\nPlease don't cuss as much this week.",
         "default_n": "Great work! No one cussed this week!"
     },
-    "vulgar": {
-        "default_n": "No one is vulgar right now."
+    "weekly_commands": {
+        "default_y": "Command stats:\n\n",
+        "default_n": "No one used any commands last week. :("
     }
 }
 

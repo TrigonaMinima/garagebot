@@ -65,3 +65,22 @@ class StatsAPI(object):
             "reply": "<WORDCLOUD>"
         }
         return reply_dict
+
+    @staticmethod
+    def weekly_commands():
+        date_from, date_to = date_utils.get_from_to()
+        counts = queries.get_command_counts(
+            date_from.timestamp(), date_to.timestamp())
+
+        if any(counts.values()):
+            reply = hard_repl["weekly_commands"]["default_y"]
+            for user in counts:
+                reply += f"`{user_dict[user]:<10}` - {counts[user]}\n"
+        else:
+            reply = hard_repl["weekly_commands"]["default_n"]
+
+        reply_dict = {
+            "reply": reply,
+            "group_id": fileio.config["META"]["group_id"]
+        }
+        return reply_dict

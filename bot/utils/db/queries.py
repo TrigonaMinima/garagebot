@@ -71,3 +71,7 @@ def get_counts(col, date_from, date_to=2000000000):
 
 def get_cuss_counts(date_from, date_to=2000000000):
     return get_counts("NUM_GAALIYA", date_from, date_to)
+
+
+def get_command_counts(date_from, date_to=2000000000):
+    return get_counts("IS_COMMAND", date_from, date_to)

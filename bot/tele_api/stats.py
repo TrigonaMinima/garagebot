@@ -45,3 +45,17 @@ class Stats(object):
 
         wc_file.unlink()
         log_bot_reply(bot_reply)
+
+    @staticmethod
+    def weekly_commands(update: Update, context: CallbackContext):
+        """
+        Sends a message to the group with the weekly commands usage.
+        """
+        reply_dict = api.weekly_commands()
+
+        bot_reply = context.bot.send_message(
+            chat_id=reply_dict["group_id"],
+            text=reply_dict["reply"],
+            parse_mode=telegram.ParseMode.MARKDOWN
+        )
+        log_bot_reply(bot_reply)
