@@ -7,8 +7,12 @@ from api.stats import StatsAPI as api
 from utils.db.logging import log_bot_reply
 
 
-def bot_reply_and_log(update: Update, reply, quote=False, **args):
-    bot_reply = update.message.reply_text(reply, **args, quote=quote)
+def bot_reply_and_log(context: CallbackContext, reply_dict):
+    bot_reply = context.bot.send_message(
+        chat_id=reply_dict["group_id"],
+        text=reply_dict["reply"],
+        parse_mode=telegram.ParseMode.MARKDOWN
+    )
     log_bot_reply(bot_reply)
 
 
@@ -20,13 +24,7 @@ class Stats(object):
         Sends a message to the group with the weekly cussing counts
         """
         reply_dict = api.weekly_cussing()
-
-        bot_reply = context.bot.send_message(
-            chat_id=reply_dict["group_id"],
-            text=reply_dict["reply"],
-            parse_mode=telegram.ParseMode.MARKDOWN
-        )
-        log_bot_reply(bot_reply)
+        bot_reply_and_log(context, reply_dict)
 
     @staticmethod
     def gen_wordcloud(update: Update, context: CallbackContext):
@@ -52,24 +50,21 @@ class Stats(object):
         Sends a message to the group with the weekly commands usage.
         """
         reply_dict = api.weekly_commands()
-
-        bot_reply = context.bot.send_message(
-            chat_id=reply_dict["group_id"],
-            text=reply_dict["reply"],
-            parse_mode=telegram.ParseMode.MARKDOWN
-        )
-        log_bot_reply(bot_reply)
+        bot_reply_and_log(context, reply_dict)
 
     @staticmethod
     def weekly_quotes(update: Update, context: CallbackContext):
         """
-        Sends a message to the group with the weekly commands usage.
+        Sends a message to the group with the weekly who-quoted-who stats.
         """
         reply_dict = api.weekly_commands()
+        bot_reply_and_log(context, reply_dict)
 
-        bot_reply = context.bot.send_message(
-            chat_id=reply_dict["group_id"],
-            text=reply_dict["reply"],
-            parse_mode=telegram.ParseMode.MARKDOWN
-        )
-        log_bot_reply(bot_reply)
+    @staticmethod
+    def weekly_messages(update: Update, context: CallbackContext):
+        """
+        Sends a message to the group with the weekly message counts for
+        each user.
+        """
+        reply_dict = api.weekly_commands()
+        bot_reply_and_log(context, reply_dict)

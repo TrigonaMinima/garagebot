@@ -47,6 +47,10 @@ hard_repl = {
     "weekly_quotes": {
         "default_y": "Quote stats:\n\n",
         "default_n": "No one quoted anyone last week. :("
+    },
+    "weekly_messages": {
+        "default_y": "Message stats:\n\n",
+        "default_n": "No one texted here last week. :("
     }
 }
 

@@ -62,6 +62,10 @@ crons = [
         "func": Stats.weekly_quotes,
         "interval": date_utils.week_delta,
         "first": date_utils.closest_thursday
+    }, {
+        "func": Stats.weekly_messages,
+        "interval": date_utils.week_delta,
+        "first": date_utils.closest_friday
     }
 ]
 
@@ -92,13 +96,8 @@ def main():
         first = cron_job["first"]
         updater.job_queue.run_repeating(cron, interval=interval, first=first)
 
-    # closest_sunday = helpers.get_next_closest_day("sunday")
-    # updater.job_queue.run_repeating(
-    #     Stats.weekly_messages, interval=week_delta, first=closest_sunday)
-
-    print("All handlers initiated.")
-
     dp.add_error_handler(error_callback)
+    print("All handlers initiated.")
 
     updater.start_polling()
     print("Bot started")

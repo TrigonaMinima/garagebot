@@ -102,3 +102,30 @@ def get_quote_counts(date_from, date_to=2000000000):
     counts = list(counts)
     con.close()
     return counts
+
+
+def get_msg_counts(date_from, date_to=2000000000):
+    """
+    Get reply counts for each user including GB.
+    """
+    assets_dir = Path(config["DIR"]["assets"])
+    db_path = assets_dir / config["DB"]["file"]
+    con = generic.get_connection(db_path)
+    cur = con.cursor()
+
+    table_name = config["DB"]["chat_table"]
+    query = f"""
+        SELECT FROM_ID, COUNT(*)
+        FROM {table_name}
+        WHERE TIMESTAMP > {date_from}
+            AND TIMESTAMP < {date_to}
+            AND CHAT_TYPE = 'group'
+            AND MESSAGE IS NOT NULL
+        GROUP BY FROM_ID
+        HAVING COUNT(*) > 0
+        ORDER BY 2 DESC;
+    """
+    counts = cur.execute(query)
+    counts = dict(counts)
+    con.close()
+    return counts
