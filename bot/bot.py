@@ -58,6 +58,10 @@ crons = [
         "func": Stats.weekly_commands,
         "interval": date_utils.week_delta,
         "first": date_utils.closest_wednesday
+    }, {
+        "func": Stats.weekly_quotes,
+        "interval": date_utils.week_delta,
+        "first": date_utils.closest_thursday
     }
 ]
 
@@ -87,10 +91,6 @@ def main():
         interval = cron_job["interval"]
         first = cron_job["first"]
         updater.job_queue.run_repeating(cron, interval=interval, first=first)
-
-    # closest_saturday = helpers.get_next_closest_day("saturday")
-    # updater.job_queue.run_repeating(
-    #     Stats.weekly_quotes, interval=week_delta, first=closest_saturday)
 
     # closest_sunday = helpers.get_next_closest_day("sunday")
     # updater.job_queue.run_repeating(

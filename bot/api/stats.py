@@ -84,3 +84,23 @@ class StatsAPI(object):
             "group_id": fileio.config["META"]["group_id"]
         }
         return reply_dict
+
+    @staticmethod
+    def weekly_quotes():
+        date_from, date_to = date_utils.get_from_to()
+        counts = queries.get_quote_counts(
+            date_from.timestamp(), date_to.timestamp())
+
+        if any(counts.values()):
+            reply = hard_repl["weekly_quotes"]["default_y"]
+
+            for i in counts:
+                reply += f"`{i[0]:<12}` -> `{i[1]:<12}` : `{i[2]}`\n"
+        else:
+            reply = hard_repl["weekly_quotes"]["default_n"]
+
+        reply_dict = {
+            "reply": reply,
+            "group_id": fileio.config["META"]["group_id"]
+        }
+        return reply_dict

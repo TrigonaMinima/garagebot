@@ -75,3 +75,30 @@ def get_cuss_counts(date_from, date_to=2000000000):
 
 def get_command_counts(date_from, date_to=2000000000):
     return get_counts("IS_COMMAND", date_from, date_to)
+
+
+def get_quote_counts(date_from, date_to=2000000000):
+    """
+    Get who-quoted-who stats for each (user,user) pair including GB.
+    """
+    assets_dir = Path(config["DIR"]["assets"])
+    db_path = assets_dir / config["DB"]["file"]
+    con = generic.get_connection(db_path)
+    cur = con.cursor()
+
+    table_name = config["DB"]["chat_table"]
+    query = f"""
+        SELECT FROM_NAME, QUOTED_PERSON_NAME, SUM(QUOTED)
+        FROM {table_name}
+        WHERE TIMESTAMP > {date_from}
+            AND TIMESTAMP < {date_to}
+            AND CHAT_TYPE = 'group'
+            AND QUOTED_PERSON_NAME IS NOT NULL
+        GROUP BY FROM_NAME, QUOTED_PERSON_NAME
+        HAVING SUM(QUOTED) > 0
+        ORDER BY 3 DESC;
+    """
+    counts = cur.execute(query)
+    counts = list(counts)
+    con.close()
+    return counts

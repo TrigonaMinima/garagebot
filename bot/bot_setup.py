@@ -43,6 +43,10 @@ hard_repl = {
     "weekly_commands": {
         "default_y": "Command stats:\n\n",
         "default_n": "No one used any commands last week. :("
+    },
+    "weekly_quotes": {
+        "default_y": "Quote stats:\n\n",
+        "default_n": "No one quoted anyone last week. :("
     }
 }
 
