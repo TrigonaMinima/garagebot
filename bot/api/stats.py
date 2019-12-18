@@ -3,12 +3,36 @@ import wordcloud
 from pathlib import Path
 
 from utils import text
-from utils import date as date_utils
 from utils import fileio
 from utils.db import queries
+from utils import date as date_utils
+
+
+hard_repl = fileio.load_hard_replies()
+user_dict = queries.get_users()
 
 
 class StatsAPI(object):
+
+    @staticmethod
+    def weekly_cussing():
+        date_from, date_to = date_utils.get_from_to()
+        counts = queries.get_cuss_counts(
+            date_from.timestamp(), date_to.timestamp())
+
+        if any(counts.values()):
+            reply = hard_repl["weekly_cussing"]["default_y1"]
+            for user in counts:
+                reply += f"`{user_dict[user]:<10}` - {counts[user]}\n"
+            reply += hard_repl["weekly_cussing"]["default_y2"]
+        else:
+            reply = hard_repl["weekly_cussing"]["default_n"]
+
+        reply_dict = {
+            "reply": reply,
+            "group_id": fileio.config["META"]["group_id"]
+        }
+        return reply_dict
 
     @staticmethod
     def gen_wordcloud():
@@ -35,9 +59,9 @@ class StatsAPI(object):
         wc_file = data_dir / f"{date_to.ctime()}.png"
         wc.to_file(wc_file)
 
-        reply = {
+        reply_dict = {
             "wc_file": wc_file,
             "group_id": fileio.config["META"]["group_id"],
             "reply": "<WORDCLOUD>"
         }
-        return reply
+        return reply_dict

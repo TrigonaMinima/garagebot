@@ -1,3 +1,5 @@
+import telegram
+
 from telegram import Update
 from telegram.ext import CallbackContext
 
@@ -13,9 +15,23 @@ def bot_reply_and_log(update: Update, reply, quote=False, **args):
 class Stats(object):
 
     @staticmethod
+    def weekly_cussing(update: Update, context: CallbackContext):
+        """
+        Sends a message to the group with the weekly cussing counts
+        """
+        reply_dict = api.weekly_cussing()
+
+        bot_reply = context.bot.send_message(
+            chat_id=reply_dict["group_id"],
+            text=reply_dict["reply"],
+            parse_mode=telegram.ParseMode.MARKDOWN
+        )
+        log_bot_reply(bot_reply)
+
+    @staticmethod
     def gen_wordcloud(update: Update, context: CallbackContext):
         """
-        Replies with the wordcloud image on the group.
+        Sends a wordcloud image on the group made from the past 30 days.
         """
         wc_dict = api.gen_wordcloud()
 
