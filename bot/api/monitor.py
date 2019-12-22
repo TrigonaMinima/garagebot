@@ -1,5 +1,4 @@
 import random
-import pysnooper
 
 from social.yt import YT
 from intel.abuse import detect_cuss
