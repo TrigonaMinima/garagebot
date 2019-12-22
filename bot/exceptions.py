@@ -21,3 +21,12 @@ class DBDoesNotExist(Error):
 class TableDoesNotExist(Error):
     def __init__(self, message):
         self.message = message
+
+
+class ConfigItemMissing(Error):
+    def __init__(self, config_var):
+        msg = (
+            f"Config variable ({config_var}) is required. "
+            "Update the config.ini file to proceed."
+        )
+        self.message = msg

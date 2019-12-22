@@ -1,7 +1,8 @@
 from pathlib import Path
 
 from exceptions import (ConfigDoesNotExist, DBDoesNotExist,
-                        TableDoesNotExist, DirDoesNotExist)
+                        TableDoesNotExist, DirDoesNotExist,
+                        ConfigItemMissing)
 from utils.db import generic
 from utils.fileio import config
 
@@ -113,6 +114,18 @@ def check():
 
     stop_hing_f = assets_dir / config["FILES"]["stop_hing_f"]
     check_file(stop_hing_f)
+
+    if not config["META"]["bot_username"]:
+        raise ConfigItemMissing("bot_username")
+
+    if not config["META"]["group_id"]:
+        raise ConfigItemMissing("group_id")
+
+    if not config["TOKENS"]["bot_token"]:
+        raise ConfigItemMissing("bot_token")
+
+    if not config["TOKENS"]["yt_api_key"]:
+        raise ConfigItemMissing("yt_api_key")
 
     return 1
 

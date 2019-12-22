@@ -159,7 +159,7 @@ if __name__ == "__main__":
               "update it add the training data and run bot/bot_setup.py again.")
     else:
         msg = ("Spelling correction training file does not exist."
-               "Older model also doesn't exist."
+               "Older model also doesn't exist. "
                f"Add a training file at {model_train_f} to continue.")
         raise FileNotFoundError(msg)
 
